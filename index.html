@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>മലയാളം - ക്ലാസ് 1 | യൂണിറ്റ് 10: പച്ചക്കറിത്തോണി</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Manjari', sans-serif;
+            background-color: #f0fdf4;
+            color: #1e293b;
+            overflow-x: hidden;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        .app-container {
+            max-width: 820px;
+            width: 100%;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: relative;
+            padding: 0;
+        }
+        .screen {
+            display: none;
+            padding: 16px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .screen.active { display: block; }
+
+        /* Headers & Buttons */
+        .header {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            color: white;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 16px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .header h1 { font-size: 1.15rem; font-weight: 700; margin: 0; }
+        .back-btn { background: rgba(255,255,255,0.25); border: none; color: white; cursor: pointer; padding: 6px 12px; border-radius: 8px; font-weight:bold; }
+
+        .btn-main {
+            padding: 14px 18px;
+            border-radius: 14px;
+            font-weight: bold;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 12px;
+            width: 100%;
+            color: white;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-main:active { transform: translateY(4px); box-shadow: none; }
+
+        .read-btn {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #14532d;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .read-btn:active { transform: translateY(3px); box-shadow: none; }
+
+        .btn-toggle {
+            background: #eab308;
+            color: #ffffff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #ca8a04;
+            margin-top: 8px;
+            width: 100%;
+        }
+        .btn-toggle:active { transform: translateY(2px); box-shadow: none; }
+
+        .btn-check {
+            background-color: #10b981; color: white; padding: 10px 18px; border-radius: 8px;
+            font-weight: bold; box-shadow: 0 3px 0 #059669; cursor: pointer; border: none;
+            margin-top: 12px; display: inline-block; width: 100%;
+        }
+        .btn-check:active { transform: translateY(3px); box-shadow: none; }
+
+        .category-card { background: #f0fdf4; border: 2px solid #bbf7d0; border-radius: 16px; padding: 16px; margin-bottom: 18px; }
+        .category-title { font-size: 1.15rem; font-weight: 700; color: #15803d; margin-bottom: 14px; border-bottom: 2px dashed #86efac; padding-bottom: 8px; }
+        .content-card { background-color: #ffffff; border: 2px solid #86efac; border-radius: 14px; padding: 16px; margin-bottom: 14px; width: 100%; }
+
+        /* Item Cards for Games */
+        .item-card {
+            background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 12px;
+            padding: 12px; font-weight: bold; font-size: 1.1rem; cursor: pointer;
+            transition: all 0.2s; text-align: center;
+        }
+        .item-card.correct-item { background: #dcfce7 !important; border-color: #22c55e !important; color: #15803d; }
+        .item-card.wrong-item { background: #fee2e2 !important; border-color: #ef4444 !important; color: #b91c1c; }
+
+        /* Letter Selection Buttons */
+        .letter-btn {
+            background: #dcfce7; border: 2px solid #4ade80; color: #15803d;
+            font-weight: bold; font-size: 1.3rem; border-radius: 12px; padding: 10px 14px;
+            cursor: pointer; transition: all 0.2s; min-width: 55px; text-align: center;
+        }
+        .letter-btn.active-letter {
+            background: #15803d; color: #ffffff; border-color: #14532d;
+            transform: scale(1.08); box-shadow: 0 4px 10px rgba(21, 128, 61, 0.3);
+        }
+
+        /* Canvas */
+        .color-palette { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 12px 0; }
+        .color-swatch { width: 40px; height: 40px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); cursor: pointer; }
+        .trace-canvas { border: 3px dashed #86efac; border-radius: 16px; background: #ffffff; touch-action: none; cursor: crosshair; width: 100%; height: 320px; display: block; margin: 0 auto; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media print {
+            body { background: white; color: black; }
+            .no-print, .header, .back-btn, .btn-main, .read-btn, .btn-toggle, .btn-check { display: none !important; }
+            .app-container { max-width: 100%; box-shadow: none; }
+            .screen { display: block !important; padding: 0; }
+            #unitPaperPrintArea { display: block !important; }
+        }
+
+        /* Layout overflow fix – keep all Malayalam letters inside */
+        html, body { overflow-x: hidden; max-width: 100%; }
+        .app-container, .content-card, .category-card, .header, .header h1,
+        .btn-main, .item-card, .letter-btn, p, .text-lg, .leading-relaxed {
+            max-width: 100%;
+            overflow-wrap: anywhere;
+            word-wrap: break-word;
+            word-break: break-word;
+            box-sizing: border-box;
+        }
+        .read-btn.speaking {
+            background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+            box-shadow: 0 3px 0 #991b1b !important;
+        }
+        .zoom-controls {
+            position: fixed;
+            bottom: 80px;
+            right: 12px;
+            z-index: 900;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .zoom-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: #16a34a;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: bold;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+            cursor: pointer;
+        }
+        .zoom-btn:active { transform: scale(0.95); }
+    </style>
+</head>
+<body>
+<div class="app-container" id="appBody">
+
+    <!-- HOME SCREEN -->
+    <div id="homeScreen" class="screen active">
+        <div class="text-center mb-5 pt-3">
+            <h1 class="text-3xl font-bold text-green-700 mb-1">മലയാളം - ക്ലാസ് 1</h1>
+            <p class="text-green-600 font-bold text-lg mb-1">യൂണിറ്റ് 10: പച്ചക്കറിത്തോണി 🛶🥦</p>
+            <p class="text-gray-600 font-semibold text-md mt-2 bg-white inline-block px-4 py-1 rounded-full border border-green-200">Prepared by : Smart Vidya</p>
+        </div>
+
+        <!-- CATEGORY 1: 🎵 പാട്ടരങ്ങ് & കഥകൾ -->
+        <div class="category-card border-green-200">
+            <h3 class="category-title text-green-800">🎵 പാട്ടരങ്ങ് & കഥകൾ</h3>
+            <div class="flex flex-col gap-3">
+                <button class="btn-main bg-green-600" onclick="showScreen('story1Screen')">🛶 പച്ചക്കറിത്തോണി (കഥ)</button>
+                <button class="btn-main bg-emerald-700" onclick="showScreen('page113Screen')">📖 കഥയിൽ നിന്ന് ചോദ്യങ്ങൾ ഉണ്ടാക്കാം</button>
+                <button class="btn-main bg-emerald-600" onclick="showScreen('song1Screen')">🎶 പാട്ടരങ്ങ് (പച്ചക്കറിത്തോണി പാട്ട്)</button>
+                <button class="btn-main bg-teal-600" onclick="showScreen('songVirippuScreen')">🌾 വിരിപ്പുകൃഷി (പാട്ട്)</button>
+                <button class="btn-main bg-lime-700" onclick="showScreen('page118Screen')">🤖 ബൈ ബൈ കുറോ, ബൈ ബൈ ഡ്രോൺ (കഥ)</button>
+                <button class="btn-main bg-green-800" onclick="showScreen('diaryScreen')">📖 നന്ദിതയുടെ ഡയറിയും കൃഷിപാഠവും</button>
+            </div>
+        </div>
+
+        <!-- CATEGORY 2: 🎮 പഠന ഗെയിമുകൾ & പ്രവർത്തനങ്ങൾ -->
+        <div class="category-card border-blue-200" style="background:#eff6ff; border-color:#bfdbfe;">
+            <h3 class="category-title text-blue-800">🎮 പഠന ഗെയിമുകൾ & തരംതിരിക്കൽ</h3>
+            <div class="flex flex-col gap-3">
+                <button class="btn-main bg-blue-600" onclick="showScreen('vegCategorizationGameScreen')">🎮 പച്ചക്കറികൾ തരംതിരിക്കാം (ഇന്ററാക്ടീവ് ഗെയിം)</button>
+                <button class="btn-main bg-indigo-600" onclick="showScreen('virippuSeedQuizScreen')">🌱 വിത്തുകൾ കണ്ടെത്തി ശരിയടയാളപ്പെടുത്താം</button>
+                <button class="btn-main bg-sky-600" onclick="showScreen('superVegScreen')">👑 ആരാണ് സൂപ്പർ? (പച്ചക്കറികളുടെ മേന്മകൾ)</button>
+                <button class="btn-main bg-cyan-600" onclick="showScreen('letterSearchGameScreen')">🔍 അക്ഷരക്കളി (ൺ, സ്കൂ, ഡ, ഡ്രോ, ക്ഷ)</button>
+            </div>
+        </div>
+
+        <!-- CATEGORY 3: 🧩 കടങ്കഥ & വരയ്ക്കാം -->
+        <div class="category-card border-amber-200" style="background:#fffbeb; border-color:#fde68a;">
+            <h3 class="category-title text-amber-800">🧩 കടങ്കഥ & വരയ്ക്കാം (ചിത്രരചന)</h3>
+            <div class="flex flex-col gap-3">
+                <button class="btn-main bg-amber-600" onclick="showScreen('riddleScreen')">🧩 പാഠഭാഗത്തെ കടങ്കഥകൾ</button>
+                <button class="btn-main bg-orange-600" onclick="showScreen('drawIdeasScreen'); initFreeDrawingCanvas();">🎨 വരയ്ക്കാം (സ്വന്തമായി ചിത്രം വരയ്ക്കൂ)</button>
+            </div>
+        </div>
+
+        <!-- CATEGORY 4: 📝 അക്ഷരങ്ങളും കത്തുകളും -->
+        <div class="category-card border-emerald-200" style="background:#f0fdf4; border-color:#bbf7d0;">
+            <h3 class="category-title text-emerald-800">📝 അക്ഷരങ്ങളും എഴുത്തുപ്രവർത്തനങ്ങളും</h3>
+            <div class="flex flex-col gap-3">
+                <button class="btn-main bg-emerald-600" onclick="showScreen('traceScreen'); initTracingCanvas();">🖌️ അക്ഷരങ്ങൾ എഴുതി പഠിക്കാം (ൺ, ക്ഷ, ഡ്രോ, സ്കൂ)</button>
+                <button class="btn-main bg-green-700" onclick="showScreen('letterToDroneScreen')">✉️ ഡ്രോണിനൊരു കത്ത് തയ്യാറാക്കാം</button>
+            </div>
+        </div>
+
+        <!-- CATEGORY 5: 🏆 പരീക്ഷാ കോർണർ -->
+        <div class="category-card border-red-200" style="background:#fef2f2; border-color:#fecaca;">
+            <h3 class="category-title text-red-800">🏆 പരീക്ഷാ കോർണർ</h3>
+            <div class="flex flex-col gap-3">
+                <button class="btn-main bg-red-600" onclick="showScreen('modelQuestionsScreen')">📋 മോഡൽ ചോദ്യങ്ങൾ</button>
+                <button class="btn-main bg-purple-700" onclick="showScreen('unitQuestionsScreen')">📄 യൂണിറ്റ് ചോദ്യങ്ങൾ (പ്രിന്റബിൾ)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STORY 1: പച്ചക്കറിത്തോണി -->
+    <div id="story1Screen" class="screen">
+        <div class="header">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ തിരികെ</button>
+            <h1>🛶 പച്ചക്കറിത്തോണി (കഥ)</h1>
+        </div>
+        <div class="content-card space-y-4">
+            <p class="text-lg leading-relaxed text-gray-800 font-bold" id="story1Text">
+                കിടന്നു കിടന്നു മടുത്തു.<br>
+                മത്തങ്ങ നാടു കാണാനിറങ്ങി.<br>
+                “എങ്ങോട്ടാ?”<br>
+                പൗഡറും പൂശി വഴിയരികിൽ നിന്ന കുമ്പളങ്ങ ചോദിച്ചു.<br>
+                “സവാരിക്കിറങ്ങിയതാ. നാടൊന്നു ചുറ്റണം.”<br>
+                “ഞാനും വരുന്നു.”<br>
+                രണ്ടുപേരും കൈകോർത്തു. അവർ നടന്നു.<br>
+                അതാ, കുത്തനെ ഒരു ഇറക്കം!<br>
+                “അയ്യോ! കാലുതെറ്റുന്നേ, പിടിക്കണേ പിടിക്കണേ!”
+            </p>
+            <button class="read-btn w-full" onclick="speakText('story1Text', this)">🔊 കഥ കേൾക്കാം</button>
+        </div>
+    </div>
+
+    <!-- ACTIVITIES: കഥയിൽ നിന്ന് ചോദ്യങ്ങൾ ഉണ്ടാക്കാം -->
+    <div id="page113Screen" class="screen">
+        <div class="header">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ തിരികെ</button>
+            <h1>📖 കഥയിൽ നിന്ന് ചോദ്യങ്ങൾ ഉണ്ടാക്കാം</h1>
+        </div>
+        <div class="content-card space-y-4">
+            <p class="text-lg leading-relaxed text-gray-800 font-bold" id="page113Text">
+                രണ്ടുപേരുടെയും നില തെറ്റി.<br>
+                ഉരുണ്ടുരുണ്ട് താഴോട്ട്.<br>
+                സഹായിക്കാൻ കൈനീട്ടിയ ചേനയും പടവലവും തക്കാളിയുമെല്ലാം കാലിടറി വീണു.<br>
+                ഡും ഡും ഡും, ഡുണ്ടും ഡുണ്ടും ഡും!<br>
+                ഉരുണ്ടുരുണ്ട് എല്ലാവരും ചെന്നു വീണതോ പുഴയിൽ!
+            </p>
+
+            <div class="p-4 bg-green-50 border border-green-300 rounded-xl space-y-3">
+                <h3 class="font-bold text-green-900 text-lg">❓ കഥയിൽനിന്ന് ചോദ്യങ്ങളുണ്ടാക്കിപ്പറയാമോ?</h3>
+                
+                <div class="p-3 bg-white border rounded-lg">
+                    <p class="font-bold text-gray-900">ചോദ്യം 1: മത്തങ്ങയും കുമ്പളങ്ങയും വീഴാൻ കാരണമെന്താണ്?</p>
+                    <p class="text-green-700 font-bold mt-1">ഉത്തരം: വഴിയരികിലെ കുത്തനെ ഉള്ള ഇറക്കത്തിൽ കാലുതെറ്റിയതുകൊണ്ട്.</p>
+                </div>
+
+                <div class="p-3 bg-white border rounded-lg">
+                    <p class="font-bold text-gray-900">ചോദ്യം 2: സഹായിക്കാൻ ചെന്ന് കാലിടറി വീണ പച്ചക്കറികൾ ഏതെല്ലാമാണ്?</p>
+                    <p class="text-green-700 font-bold mt-1">ഉത്തരം: ചേന, പടവലം, തക്കാളി.</p>
+                </div>
+
+                <div class="p-3 bg-white border rounded-lg">
+                    <p class="font-bold text-gray-900">ചോദ്യം 3: എല്ലാവരും ഉരുണ്ടുരുണ്ട് എവിടെയാണ് ചെന്നുവീണത്?</p>
+                    <p class="text-green-700 font-bold mt-1">ഉത്തരം: പുഴയിൽ.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACTIVITIES: ബൈ ബൈ കുറോ, ബൈ ബൈ ഡ്രോൺ -->
+    <div id="page118Screen" class="screen">
+        <div class="header">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ തിരികെ</button>
+            <h1>🤖 ബൈ ബൈ കുറോ, ബൈ ബൈ ഡ്രോൺ</h1>
+        </div>
+        <div class="content-card space-y-4">
+            <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl">
+                <h3 class="font-bold text-blue-900 text-lg mb-2">കുറോയും കുട്ടികളും (സംഭാഷണം)</h3>
+                <p class="text-md leading-relaxed text-gray-800 font-bold" id="page118Text">
+                    റോഡിന്റെ വശം ചേർന്ന് ഒരു കുട്ടി റോബോട്ട് നടന്നുവരുന്നു.<br>
+                    കുറേ കുട്ടികൾ കുട്ടിറോബോട്ടിന്റെ അടുത്തേക്ക് നടന്നു ചെല്ലുന്നു.<br><br>
+                    <b>കുട്ടികൾ :</b> നിന്റെ പേരെന്താണ്?<br>
+                    <b>കുട്ടിറോബോട്ട് :</b> കുറോ.<br>
+                    <b>കുട്ടികൾ :</b> കൊള്ളാം. നല്ല പേര്, നീ കളിക്കാൻ കൂടുന്നോ?<br>
+                    <b>കുറോ :</b> ഞാൻ റെഡി.<br><br>
+                    കുറോയും കുട്ടികളും സന്തോഷത്തോടെ പന്തുകളിക്കുന്നു! ⚽🤖
+                </p>
+                <button class="read-btn w-full" onclick="speakText('page118Text', this)">🔊 സംഭാഷണം കേൾക്കാം</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SONG 1: പാട്ടരങ്ങ് -->
+    <div id="song1Screen" class="screen">
+        <div class="header">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ തിരികെ</button>
+            <h1>🎶 പാട്ടരങ്ങ് (പച്ചക്കറിത്തോണി പാട്ട്)</h1>
+        </div>
+        <div class="content-card text-center" style="background:#f0fdf4;">
+            <p class="text-xl font-bold text-green-800 mb-3">🥦 പാട്ടരങ്ങ് 🥦</p>
+
+            <p class="text-lg leading-relaxed text-gray-800 font-bold mb-4" id="song1FullText">
+                മത്തൻ, ചേന, കുമ്പളങ്ങ<br>
+                തിത്തിത്താരാ തിത്തിത്തൈ<br>
+                വെണ്ട, ചീര, വെള്ളരിക്ക<br>
+                തിത്തിത്താരാ തിത്തിത്തൈ<br><br>
+
+                മത്തൻ, ചേന, കുമ്പളങ്ങ,<br>
+                വെണ്ട, ചീര, വെള്ളരിക്ക,<br>
+                നേന്ത്രക്കായ, പടവലം, മുരിങ്ങക്കായ<br>
+                ഓ തിത്തിത്താരാ തിത്തിത്തൈ<br>
+                തിത്തൈ തക തെയ് തെയ് തോം<br><br>
+
+                വെളുത്തുള്ളി, ചുവന്നുള്ളി<br>
+                കറിവേപ്പും മല്ലിച്ചപ്പും<br>
+                ഇഞ്ചി, പച്ചമുളകുകൾ നിരന്നു നിന്നു<br>
+                പച്ചക്കറിത്തോണിയേറി<br>
+                പച്ചക്കറിത്തുഴയേന്തി<br>
+                പച്ചക്കറിപ്പാട്ടും പാടി വരുന്നു ഞങ്ങൾ<br>
+                ഓ തിത്തിത്താരാ തോം!
+            </p>
+
+            <button class="read-btn" onclick="speakText('song1FullText', this)">🔊 പാട്ട് ചൊല്ലാം</button>
+        </div>
+    </div>
+
+    <!-- SONG 2: വിരിപ്പുകൃഷി -->
+    <div id="songVirippuScreen" class="screen">
+        <div class="header">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ തിരികെ</button>
+            <h1>🌾 വിരിപ്പുകൃഷി (പാട്ട്)</h1>
+        </div>
+        <div class="content-card text-center">
+            <p class="text-lg leading-relaxed text-gray-800 font-bold mb-4" id="virippuSongText">
+                ഈറ്റ വെട്ടി കാടു വെട്ടി<br>
+                പൊതക്കാട്ടിൽ തീയെരിച്ച്<br>
+                വിരിപ്പിടം തീയെരിച്ച്<br>
+                അമ്മ വിളിച്ചു, അച്ഛൻ വിളിച്ചു<br>
+                വീട്ടുകാരും നാട്ടുകാരും ഊരാകെ ഒത്തുവിളിച്ചു<br><br>
+
+                ചീരവിത്തേ, ചോളവിത്തേ<br>
+                കടുക്, തുവര, അമരവിത്തേ,<br>
+                ചാമവിത്തേ, വരകുവിത്തേ,<br>
+                നെല്ല്, വെള്ളരി, മത്തൻവിത്തേ..<br><br>
+
+                പുതുമഴയിൽ കൺതുറന്ന്<br>
+                പൂവിരിഞ്ഞ്.. കായ ചാഞ്ഞ്<br>
+                എന്നുമെന്നും വിളവുകാലം..<br>
+                എന്നുമെന്നും വിളവുകാലം!
+            </p>
+            <button class="read-btn" onclick="speakText('virippuSongText', this)">🔊 വിരിപ്പുകൃഷി പാട്ട് കേൾക്കാം</button>
+        </div>
+    </div>
+
+    <!-- DIARY: നന്ദിതയുടെ ഡയറി -->
+    <div id="diaryScreen" class="screen">
+        <div class="header">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ തിരികെ</button>
+            <h1>📖 നന്ദിതയുടെ ഡയറിയും കൃഷിപാഠവും</h1>
+        </div>
+        <div class="content-card space-y-4">
+            <div class="p-4 bg-amber-50 border border-amber-300 rounded-xl">
+                <h3 class="font-bold text-amber-900 text-lg mb-2">📝 നന്ദിതയുടെ ഡയറി</h3>
+                <p class="text-md leading-relaxed text-gray-800 font-bold" id="diaryContent">
+                    ഇന്ന് സ്‌കൂൾ അവധിയാണ്. അത് കൊണ്ട് ഞാനും അമ്മയും കൂടി കൃഷിതോട്ടത്തിൽ പോയി. അവിടെ മുളക് ചെടിയും പയറുചെടിയും വെണ്ടയും ഉണ്ട്. ഞാൻ അതിനെല്ലാം വെള്ളം ഒഴിച്ചു. പുഴു തിന്ന ഇലകൾ എല്ലാം ഞാൻ പറിച്ചു കളഞ്ഞു. പുഴു വരാതിരിക്കാൻ എല്ലാത്തിനും അമ്മ മരുന്ന് അടിച്ചു.<br><br>
+                    - നന്ദിത എം എസ് (ജി എൽ പി എസ്, കിഴക്കമ്പലം, കോലഞ്ചേരി, എറണാകുളം)
+                </p>
+                <button class="read-btn w-full" onclick="speakText('diaryContent', this)">🔊 ഡയറി കേൾക്കാം</button>
+            </div>
+
+            <div class="p-4 bg-green-50 border border-green-300 rounded-xl">
+                <h3 class="font-bold text-green-900 text-lg mb-2">🌱 കൃഷിരീതി (പയർ കൃഷി)</h3>
+                <div class="font-bold text-gray-800 space-y-1">
+                    <p>1. നിലം കിളയ്ക്കുന്നു.</p>
+                    <p>2. ചാല് കീറുന്നു.</p>
+                    <p>3. അടിവളം ചേർക്കുന്നു.</p>
+                    <p>4. വിത്ത് നടുന്നു.</p>
+                    <p>5. വെള്ളം നനയ്ക്കുന്നു.</p>
+                    <p>6. വിത്ത് മുളച്ച് ഇലകൾ വരുമ്പോൾ മണ്ണ് കൂട്ടി നൽകുന്നു.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INTERACTIVE VEGETABLE CATEGORIZATION GAME -->
+    <div id="vegCategorizationGameScreen" class="screen">
+        <div class="header">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ തിരികെ</button>
+            <h1>🎮 പച്ചക്കറികൾ തരംതിരിക്കാം (ഗെയിം)</h1>
+        </div>
+        <div class="content-card">
+            <p class="font-bold text-green-900 mb-2 text-lg">ഓരോ പച്ചക്കറിയുടെയും ഏതു ഭാഗമാണ് ഭക്ഷണമായി ഉപയോഗിക്കുന്നത്? അനുയോജ്യമായ വിഭാഗത്തിൽ ക്ലിക്ക് ചെയ്യുക 🎯</p>
+
+            <div class="space-y-4">
+                <!-- Question 1 -->
+                <div class="p-3 border border-green-200 rounded-xl bg-green-50">
+                    <p class="font-bold text-gray-800 mb-2">1. ചീര, മുരിങ്ങയില, കറിവേപ്പില</p>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button class="item-card" onclick="checkCategorization(this, true, 'ഇലകൾ')">🍃 ഇലകൾ</button>
+                        <button class="item-card" onclick="checkCategorization(this, false, 'കായകൾ')">🫛 കായകൾ</button>
+                        <button class="item-card" onclick="checkCategorization(this, false, 'മറ്റു ഭാഗങ്ങൾ')">🍠 മറ്റു ഭാഗങ്ങൾ</button>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="p-3 border border-green-200 rounded-xl bg-green-50">
+                    <p class="font-bold text-gray-800 mb-2">2. വെണ്ടയ്ക്ക, പാവയ്ക്ക, വെള്ളരി, പയറ്</p>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button class="item-card" onclick="checkCategorization(this, false, 'ഇലകൾ')">🍃 ഇലകൾ</button>
+                        <button class="item-card" onclick="checkCategorization(this, true, 'കായകൾ')">🫛 കായകൾ</button>
+                        <button class="item-card" onclick="checkCategorization(this, false, 'മറ്റു ഭാഗങ്ങൾ')">🍠 മറ്റു ഭാഗങ്ങൾ</button>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="p-3 border border-green-200 rounded-xl bg-green-50">
+                    <p class="font-bold text-gray-800 mb-2">3. ചേന, ബീറ്റ്‌റൂട്ട്, ക്യാരറ്റ്, ഉരുളക്കിഴങ്ങ്</p>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button class="item-card" onclick="checkCategorization(this, false, 'ഇലകൾ')">🍃 ഇലകൾ</button>
+                        <button class="item-card" onclick="checkCategorization(this, false, 'കായകൾ')">🫛 കായകൾ</button>
+                        <button class="item-card" onclick="checkCategorization(this, true, 'മറ്റു ഭാഗങ്ങൾ (കിഴങ്ങുകൾ)')">🍠 മറ്റു ഭാഗങ്ങൾ</button>
+                    </div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="p-3 border border-green-200 rounded-xl bg-green-50">
+                    <p class="font-bold text-gray-800 mb-2">4. വാഴപ്പൂവ് / വാഴക്കൂമ്പ്</p>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button class="item-card" onclick="checkCategorization(this, false, 'ഇലകൾ')">🍃 ഇലകൾ</button>
+                        <button class="item-card" onclick="checkCategorization(this, false, 'കായകൾ')">🫛 കായകൾ</button>
+                        <button class="item-card" onclick="checkCategorization(this, true, 'പൂവ് (മറ്റു ഭാഗങ്ങൾ)')">🌸 പൂവ്</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIRIPPU SEEDS CHECK GAME -->
+    <div id="virippuSeedQuizScreen" class="screen">
+        <div class="header">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ തിരികെ</button>
+            <h1>🌱 വിരിപ്പുകൃഷിയിലെ വിത്തുകൾ കണ്ടെത്താം</h1>
+        </div>
+        <div class="content-card">
+            <p class="font-bold text-green-900 mb-2 text-lg">വിരിപ്പുകൃഷി പാട്ടിലുള്ള വിത്തുകൾ ക്ലിക്ക് ചെയ്ത് കണ്ടെത്തു 🎯</p>
+
+            <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="item-card" onclick="checkSeedItem(this, true, 'ചീരവിത്ത്')">🌱 ചീരവിത്ത്</div>
+                <div class="item-card" onclick="checkSeedItem(this, false, 'ആപ്പിൾ കുരു')">🍎 ആപ്പിൾ കുരു</div>
+                <div class="item-card" onclick="checkSeedItem(this, true, 'ചോളവിത്ത്')">🌽 ചോളവിത്ത്</div>
+                <div class="item-card" onclick="checkSeedItem(this, true, 'അമരവിത്ത്')">🫘 അമരവിത്ത്</div>
+                <div class="item-card" onclick="checkSeedItem(this, false, 'റബ്ബർ കുരു')">⚪ റബ്ബർ കുരു</div>
+                <div class="item-card" onclick="checkSeedItem(this, true, 'മത്തൻവിത്ത്')">🎃 മത്തൻവിത്ത്</div>
+                <div class="item-card" onclick="checkSeedItem(this, true, 'വെള്ളരിവിത്ത്')">🥒 വെള്ളരിവിത്ത്</div>
+                <div class="item-card" onclick="checkSeedItem(this, true, 'കടുക് വിത്ത്')">🟡 കടുക് വിത്ത്</div>
+            </div>
+
+            <div id="seedQuizResult" class="p-3 bg-green-50 rounded-lg text-center font-bold text-green-800">
+                കണ്ടെത്തിയ പാട്ടിലെ വിത്തുകൾ: <span id="foundSeedCount">0</span> / 6
+            </div>
+        </div>
+    </div>
+
+    <!-- SUPER VEGETABLE BENEFITS -->
+    <div id="superVegScreen" class="screen">
+        <div class="header">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ തിരികെ</button>
+            <h1>👑 ആരാണ് സൂപ്പർ? (പച്ചക്കറികളുടെ മേന്മകൾ)</h1>
+        </div>
+        <div class="content-card space-y-4">
+            <p class="font-bold text-green-900 text-lg mb-2">പച്ചക്കറികളുടെ ആരോഗ്യ മേന്മകൾ 🥗</p>
+
+            <div class="p-3 border border-green-200 rounded-xl bg-green-50">
+                <p class="font-bold text-green-900 mb-1">🌿 ചീര:</p>
+                <p class="text-gray-800 font-semibold">ഇരുമ്പുസത്തും (Iron) ജീവകങ്ങളും ധാരാളം അടങ്ങിയിരിക്കുന്നു. കണ്ണ് കാഴ്ച ശക്തിപ്പെടുത്താനും രക്തപ്രസാദത്തിനും മികച്ചതാണ്.</p>
+            </div>
+
+            <div class="p-3 border border-green-200 rounded-xl bg-green-50">
+                <p class="font-bold text-orange-900 mb-1">🥕 ക്യാരറ്റ്:</p>
+                <p class="text-gray-800 font-semibold">വിറ്റാമിൻ എ (Vitamin A) ധാരാളമുണ്ട്. കണ്ണിന്റെ ആരോഗ്യത്തിനും ചർമ്മത്തിന്റെ സൗന്ദര്യത്തിനും നല്ലതാണ്.</p>
+            </div>
+
+            <div class="p-3 border border-green-200 rounded-xl bg-green-50">
+                <p class="font-bold text-emerald-900 mb-1">🫛 വെണ്ടയ്ക്ക:</p>
+                <p class="text-gray-800 font-semibold">ബുദ്ധിശക്തി വർദ്ധിപ്പിക്കാനും ദഹനം എളുപ്പമാക്കാനും നാരുകൾ ധാരാളമുള്ള വെണ്ടയ്ക്ക സഹായിക്കും.</p>
+            </div>
+
+            <div class="p-3 border border-green-200 rounded-xl bg-green-50">
+                <p class="font-bold text-red-900 mb-1">🍅 തക്കാളി:</p>
+                <p class="text-gray-800 font-semibold">വിറ്റാമിൻ സി (Vitamin C) അടങ്ങിയിരിക്കുന്നു. രോഗപ്രതിരോധശേഷി നൽകുന്നു.</p>
+            </div>
+
+            <div class="p-3 border border-green-200 rounded-xl bg-green-50">
+                <p class="font-bold text-amber-900 mb-1">🎃 മത്തങ്ങ & കുമ്പളങ്ങ:</p>
+                <p class="text-gray-800 font-semibold">ശരീരത്തിന് തണുപ്പും ഊർജ്ജവും നൽകുന്നു. ദഹനവ്യവസ്ഥയ്ക്ക് ഏറേ ഉത്തമം.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- EXPANDED LETTER SEARCH GAME -->
+    <div id="letterSearchGameScreen" class="screen">
+        <div class="header">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ തിരികെ</button>
+            <h1>🔍 അക്ഷരക്കളി (ൺ, സ്കൂ, ഡ, ഡ്രോ, ക്ഷ)</h1>
+        </div>
+        <div class="content-card space-y-4">
+            <p class="font-bold text-green-900 text-lg mb-2">വാക്കുകളിൽ നിന്നും ശരിയായ അക്ഷരം കണ്ടെത്തൂ 🎯</p>
+
+            <div class="p-3 bg-green-50 border rounded-xl">
+                <p class="font-bold text-gray-800 mb-2">1. 'ഡ്രോൺ' എന്ന വാക്കിലെ അവസാനത്തെ ചില്ലക്ഷരം ഏതാണ്?</p>
+                <div class="flex gap-2">
+                    <button class="item-card flex-1" onclick="checkLetterGame(this, true)">ൺ</button>
+                    <button class="item-card flex-1" onclick="checkLetterGame(this, false)">ൽ</button>
+                    <button class="item-card flex-1" onclick="checkLetterGame(this, false)">ർ</button>
+                </div>
+            </div>
+
+            <div class="p-3 bg-green-50 border rounded-xl">
+                <p class="font-bold text-gray-800 mb-2">2. 'സ്‌കൂൾ' എന്ന വാക്കിലെ കൂട്ടക്ഷരം ഏതാണ്?</p>
+                <div class="flex gap-2">
+                    <button class="item-card flex-1" onclick="checkLetterGame(this, false)">സ്റ്റ</button>
+                    <button class="item-card flex-1" onclick="checkLetterGame(this, true)">സ്‌കൂ</button>
+                    <button class="item-card flex-1" onclick="checkLetterGame(this, false)">സ്പ</button>
+                </div>
+            </div>
+
+            <div class="p-3 bg-green-50 border rounded-xl">
+                <p class="font-bold text-gray-800 mb-2">3. 'പൗഡർ' എന്ന വാക്കിലെ ആദ്യത്തെ കൂട്ടക്ഷരം ഏതാണ്?</p>
+                <div class="flex gap-2">
+                    <button class="item-card flex-1" onclick="checkLetterGame(this, true)">ഡ</button>
+                    <button class="item-card flex-1" onclick="checkLetterGame(this, false)">ട</button>
+                    <button class="item-card flex-1" onclick="checkLetterGame(this, false)">ഠ</button>
+                </div>
+            </div>
+
+            <div class="p-3 bg-green-50 border rounded-xl">
+                <p class="font-bold text-gray-800 mb-2">4. 'സ്‌നേഹിതരേ' എന്ന വാക്കിലെ ആദ്യ കൂട്ടക്ഷരം ഏതാണ്?</p>
+                <div class="flex gap-2">
+                    <button class="item-card flex-1" onclick="checkLetterGame(this, true)">സ്‌നേ</button>
+                    <button class="item-card flex-1" onclick="checkLetterGame(this, false)">സ്‌മേ</button>
+                    <button class="item-card flex-1" onclick="checkLetterGame(this, false)">സ്‌തോ</button>
+                </div>
+            </div>
+
+            <div class="p-3 bg-green-50 border rounded-xl">
+                <p class="font-bold text-gray-800 mb-2">5. 'പക്ഷി' എന്ന വാക്കിലെ കൂട്ടക്ഷരം ഏതാണ്?</p>
+                <div class="flex gap-2">
+                    <button class="item-card flex-1" onclick="checkLetterGame(this, false)">ക്ഷാ</button>
+                    <button class="item-card flex-1" onclick="checkLetterGame(this, true)">ക്ഷ</button>
+                    <button class="item-card flex-1" onclick="checkLetterGame(this, false)">ച്ച</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIDDLES SECTION -->
+    <div id="riddleScreen" class="screen">
+        <div class="header">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ തിരികെ</button>
+            <h1>🧩 പാഠഭാഗത്തെ കടങ്കഥകൾ</h1>
+        </div>
+        <div class="content-card space-y-4">
+            <p class="font-bold text-amber-900 mb-2 text-lg">ടെക്സ്റ്റ് ബുക്കിലെയും പ്രവർത്തന പുസ്തകത്തിലെയും കടങ്കഥകൾ 🧩</p>
+
+            <div class="p-4 border-2 border-amber-200 rounded-xl bg-amber-50">
+                <p class="font-bold text-gray-900 text-lg mb-2">1. അടി പാറ, നടു വടി, തല കാട്. എന്താണ്?</p>
+                <button class="btn-toggle" onclick="toggleElement('ans1')">💡 ഉത്തരം കാണുക / മറയ്ക്കുക</button>
+                <p id="ans1" class="hidden mt-2 font-bold text-green-700 text-lg">ഉത്തരം: ചേന 🍠</p>
+            </div>
+
+            <div class="p-4 border-2 border-amber-200 rounded-xl bg-amber-50">
+                <p class="font-bold text-gray-900 text-lg mb-2">2. കയ്പുണ്ട് കാഞ്ഞിരമല്ല, മുള്ളുണ്ട് മുരിക്കല്ല. എന്താണ്?</p>
+                <button class="btn-toggle" onclick="toggleElement('ans2')">💡 ഉത്തരം കാണുക / മറയ്ക്കുക</button>
+                <p id="ans2" class="hidden mt-2 font-bold text-green-700 text-lg">ഉത്തരം: പാവയ്ക്ക 🥒</p>
+            </div>
+
+            <div class="p-4 border-2 border-amber-200 rounded-xl bg-amber-50">
+                <p class="font-bold text-gray-900 text-lg mb-2">3. വാലുണ്ട് വാനരനല്ല, മൺപാതയിൽ പൊന്നമ്മ. എന്താണ്?</p>
+                <button class="btn-toggle" onclick="toggleElement('ans3')">💡 ഉത്തരം കാണുക / മറയ്ക്കുക</button>
+                <p id="ans3" class="hidden mt-2 font-bold text-green-700 text-lg">ഉത്തരം: മത്തങ്ങ 🎃</p>
+            </div>
+
+            <div class="p-4 border-2 border-amber-200 rounded-xl bg-amber-50">
+                <p class="font-bold text-gray-900 text-lg mb-2">4. പിടിച്ചാൽ ഒരു പിടി, അരിഞ്ഞാൽ ഒരു മുറം. എന്താണ്?</p>
+                <button class="btn-toggle" onclick="toggleElement('ans4')">💡 ഉത്തരം കാണുക / മറയ്ക്കുക</button>
+                <p id="ans4" class="hidden mt-2 font-bold text-green-700 text-lg">ഉത്തരം: ചീര 🌿</p>
+            </div>
+
+            <div class="p-4 border-2 border-amber-200 rounded-xl bg-amber-50">
+                <p class="font-bold text-gray-900 text-lg mb-2">5. കാള കിടക്കും കയറോടും. എന്താണ്?</p>
+                <button class="btn-toggle" onclick="toggleElement('ans5')">💡 ഉത്തരം കാണുക / മറയ്ക്കുക</button>
+                <p id="ans5" class="hidden mt-2 font-bold text-green-700 text-lg">ഉത്തരം: മത്തങ്ങയും വള്ളിയും 🎃</p>
+            </div>
+
+            <div class="p-4 border-2 border-amber-200 rounded-xl bg-amber-50">
+                <p class="font-bold text-gray-900 text-lg mb-2">6. ചപ്പാത്തി പോലെ ഇല, വിരലു പോലെ കായ. എന്താണ്?</p>
+                <button class="btn-toggle" onclick="toggleElement('ans6')">💡 ഉത്തരം കാണുക / മറയ്ക്കുക</button>
+                <p id="ans6" class="hidden mt-2 font-bold text-green-700 text-lg">ഉത്തരം: വെണ്ടയ്ക്ക 🫛</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- DRAWING BOARD SECTION -->
+    <div id="drawIdeasScreen" class="screen">
+        <div class="header">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ തിരികെ</button>
+            <h1>🎨 വരയ്ക്കാം (സ്വന്തമായി ചിത്രം വരയ്ക്കൂ)</h1>
+        </div>
+        <div class="content-card space-y-4 text-center">
+            <p class="font-bold text-orange-900 text-lg mb-1">നിങ്ങൾക്ക് ഇഷ്ടമുള്ള നിറങ്ങൾ തിരഞ്ഞെടുത്ത് ഇവിടെ ചിത്രം വരയ്ക്കൂ 🎨</p>
+            <p class="text-xs text-gray-600 mb-2 font-bold">(പച്ചക്കറിത്തോണി, ഡ്രോൺ, കുറോ റോബോട്ട്, പച്ചക്കറികൾ എന്നിവ വരയ്ക്കാം)</p>
+
+            <div class="color-palette">
+                <div class="color-swatch" style="background:#1e293b" onclick="setFreeDrawColor('#1e293b')"></div>
+                <div class="color-swatch" style="background:#ef4444" onclick="setFreeDrawColor('#ef4444')"></div>
+                <div class="color-swatch" style="background:#3b82f6" onclick="setFreeDrawColor('#3b82f6')"></div>
+                <div class="color-swatch" style="background:#16a34a" onclick="setFreeDrawColor('#16a34a')"></div>
+                <div class="color-swatch" style="background:#eab308" onclick="setFreeDrawColor('#eab308')"></div>
+                <div class="color-swatch" style="background:#a855f7" onclick="setFreeDrawColor('#a855f7')"></div>
+            </div>
+
+            <canvas id="freeDrawCanvas" class="trace-canvas"></canvas>
+
+            <div class="flex gap-2 mt-3">
+                <button class="btn-check" style="background-color: #ef4444;" onclick="clearFreeDrawCanvas()">🧹 ചിത്രം മായ്ക്കുക (Clear Canvas)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODEL QUESTIONS SCREEN -->
+    <div id="modelQuestionsScreen" class="screen">
+        <div class="header">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ തിരികെ</button>
+            <h1>📋 മോഡൽ ചോദ്യങ്ങൾ</h1>
+        </div>
+        <div class="content-card space-y-4">
+            <p class="font-bold text-red-900 mb-2 text-lg">യൂണിറ്റ് 10 മോഡൽ ചോദ്യങ്ങളും ഉത്തരങ്ങളും 📋</p>
+
+            <div class="p-4 border-2 border-red-200 rounded-xl bg-red-50">
+                <p class="font-bold text-gray-900 text-md mb-1">ചോദ്യം 1: പൗഡറും പൂശി വഴിയരികിൽ നിന്ന പച്ചക്കറി ഏതാണ്?</p>
+                <button class="btn-toggle" onclick="toggleElement('mAns1')">💡 മോഡൽ ആ൯സർ കാണുക / മറയ്ക്കുക</button>
+                <div id="mAns1" class="hidden mt-3 p-3 bg-white rounded-lg border border-red-300 font-bold text-green-900">
+                    മോഡൽ ആ൯സർ: കുമ്പളങ്ങ.
+                </div>
+            </div>
+
+            <div class="p-4 border-2 border-red-200 rounded-xl bg-red-50">
+                <p class="font-bold text-gray-900 text-md mb-1">ചോദ്യം 2: കുട്ടികളുമായി പന്തുകളിച്ച കുട്ടി റോബോട്ടിന്റെ പേരെന്താണ്?</p>
+                <button class="btn-toggle" onclick="toggleElement('mAns2')">💡 മോഡൽ ആ൯സർ കാണുക / മറയ്ക്കുക</button>
+                <div id="mAns2" class="hidden mt-3 p-3 bg-white rounded-lg border border-red-300 font-bold text-green-900">
+                    മോഡൽ ആ൯സർ: കുറോ.
+                </div>
+            </div>
+
+            <div class="p-4 border-2 border-red-200 rounded-xl bg-red-50">
+                <p class="font-bold text-gray-900 text-md mb-1">ചോദ്യം 3: നായക്കുട്ടികൾക്ക് ഭക്ഷണസഞ്ചിയുമായി പറന്നുവന്നത് ആര്?</p>
+                <button class="btn-toggle" onclick="toggleElement('mAns3')">💡 മോഡൽ ആ൯സർ കാണുക / മറയ്ക്കുക</button>
+                <div id="mAns3" class="hidden mt-3 p-3 bg-white rounded-lg border border-red-300 font-bold text-green-900">
+                    മോഡൽ ആ൯സർ: ഡ്രോൺ.
+                </div>
+            </div>
+
+            <div class="p-4 border-2 border-red-200 rounded-xl bg-red-50">
+                <p class="font-bold text-gray-900 text-md mb-1">ചോദ്യം 4: "അടി പാറ, നടു വടി, തല കാട്" - കടങ്കഥയുടെ ഉത്തരം എന്താണ്?</p>
+                <button class="btn-toggle" onclick="toggleElement('mAns4')">💡 മോഡൽ ആ൯സർ കാണുക / മറയ്ക്കുക</button>
+                <div id="mAns4" class="hidden mt-3 p-3 bg-white rounded-lg border border-red-300 font-bold text-green-900">
+                    മോഡൽ ആ൯സർ: ചേന.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- UNIT QUESTIONS SCREEN (PRINTABLE) -->
+    <div id="unitQuestionsScreen" class="screen">
+        <div class="header no-print">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ തിരികെ</button>
+            <h1>📄 യൂണിറ്റ് ചോദ്യങ്ങൾ</h1>
+        </div>
+
+        <div class="content-card space-y-4" id="unitPaperPrintArea">
+            <div class="text-center border-b pb-3">
+                <h2 class="text-2xl font-bold text-green-800">യൂണിറ്റ് ചോദ്യപേപ്പർ (യൂണിറ്റ് 10: പച്ചക്കറിത്തോണി)</h2>
+                <p class="font-bold text-gray-600">വിഷയം: മലയാളം | ക്ലാസ്: 1</p>
+            </div>
+
+            <div class="space-y-4 text-gray-900 font-bold">
+                <div class="p-3 bg-green-50 border border-green-200 rounded-xl">
+                    <p class="text-green-900 font-bold mb-2">I. വരികൾ പൂർത്തിയാക്കുക:</p>
+                    <p class="ml-2 font-normal">1. പച്ചക്കറിത്തോണിയേറി ...............</p>
+                    <p class="ml-2 font-normal">2. പച്ചക്കറിപ്പാട്ടും പാടി ...............</p>
+                </div>
+
+                <div class="p-3 bg-green-50 border border-green-200 rounded-xl">
+                    <p class="text-green-900 font-bold mb-2">II. ഒറ്റവാക്കിൽ ഉത്തരം എഴുതുക:</p>
+                    <p class="ml-2 font-normal">1. സവാരിക്കിറങ്ങിയ മത്തങ്ങയോടൊപ്പം കൂടെ വന്ന സുഹൃത്ത് ആര്?</p>
+                    <p class="ml-2 font-normal">2. വിരിപ്പുകൃഷിയിൽ അമ്മയും അച്ഛനും വിളിച്ച രണ്ട് വിത്തുകളുടെ പേരെഴുതുക.</p>
+                </div>
+
+                <div class="p-3 bg-green-50 border border-green-200 rounded-xl">
+                    <p class="text-green-900 font-bold mb-2">III. ശരിയായ ഉത്തരം തിരഞ്ഞെടുക്കുക:</p>
+                    <p class="ml-2 font-normal">1. ഇല ഭക്ഷണത്തിനായി ഉപയോഗിക്കുന്ന സസ്യം: (ചീര / കുമ്പളങ്ങ)</p>
+                    <p class="ml-2 font-normal">2. 'ഡ്രോൺ' എന്ന വാക്കിലെ അവസാന അക്ഷരം: (ൺ / ൻ)</p>
+                </div>
+
+                <div class="p-3 bg-green-50 border border-green-200 rounded-xl">
+                    <p class="text-green-900 font-bold mb-2">IV. കടങ്കഥയ്ക്ക് ഉത്തരം എഴുതുക:</p>
+                    <p class="ml-2 font-normal">"കയ്പുണ്ട് കാഞ്ഞിരമല്ല, മുള്ളുണ്ട് മുരിക്കല്ല" - എന്താണത്?</p>
+                </div>
+
+                <div class="p-3 bg-green-50 border border-green-200 rounded-xl">
+                    <p class="text-green-900 font-bold mb-2">V. ലഘുപ്രവർത്തനം:</p>
+                    <p class="ml-2 font-normal">നിങ്ങൾക്ക് ഇഷ്ടപ്പെട്ട ഒരു പച്ചക്കറിയുടെ പേരും അതിന്റെ രണ്ട് മേന്മകളും എഴുതുക.</p>
+                </div>
+            </div>
+
+            <button class="btn-check no-print bg-green-700" onclick="window.print()">🖨️ ചോദ്യപേപ്പർ പ്രിന്റ് ചെയ്യുക / PDF ഡൗൺലോഡ് ചെയ്യുക</button>
+        </div>
+    </div>
+
+    <!-- TRACE LETTERS -->
+    <div id="traceScreen" class="screen">
+        <div class="header">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ തിരികെ</button>
+            <h1>അക്ഷരങ്ങൾ എഴുതി പഠിക്കാം</h1>
+        </div>
+        <div class="content-card text-center">
+            <p class="font-bold text-green-900 mb-1 text-lg">യൂണിറ്റ് 10 ലെ പ്രധാന അക്ഷരങ്ങൾ ക്ലിക്ക് ചെയ്ത് വരച്ച് പരിശീലിക്കൂ ✏️</p>
+            
+            <div class="flex flex-wrap justify-center gap-2 mb-4" id="letterSelector">
+                <button class="letter-btn active-letter" onclick="selectLetterToTrace('ൺ', this)">ൺ</button>
+                <button class="letter-btn" onclick="selectLetterToTrace('സ്കൂ', this)">സ്കൂ</button>
+                <button class="letter-btn" onclick="selectLetterToTrace('ഡ', this)">ഡ</button>
+                <button class="letter-btn" onclick="selectLetterToTrace('ഡ്രോ', this)">ഡ്രോ</button>
+                <button class="letter-btn" onclick="selectLetterToTrace('ക്ഷ', this)">ക്ഷ</button>
+                <button class="letter-btn" onclick="selectLetterToTrace('സ്നേ', this)">സ്നേ</button>
+            </div>
+
+            <div class="color-palette">
+                <div class="color-swatch" style="background:#15803d" onclick="setTraceColor('#15803d')"></div>
+                <div class="color-swatch" style="background:#ef4444" onclick="setTraceColor('#ef4444')"></div>
+                <div class="color-swatch" style="background:#3b82f6" onclick="setTraceColor('#3b82f6')"></div>
+                <div class="color-swatch" style="background:#a855f7" onclick="setTraceColor('#a855f7')"></div>
+            </div>
+
+            <canvas id="traceCanvas" class="trace-canvas"></canvas>
+
+            <div class="flex gap-2 mt-3">
+                <button class="btn-check" style="background-color: #3b82f6;" onclick="speakSelectedLetter()">🔊 ഉച്ചാരണം കേൾക്കാം</button>
+                <button class="btn-check" style="background-color: #ef4444;" onclick="resetTracingCanvas()">🧹 മായ്ക്കുക (Clear)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LETTER TO DRONE -->
+    <div id="letterToDroneScreen" class="screen">
+        <div class="header">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ തിരികെ</button>
+            <h1>✉️ ഡ്രോണിനൊരു കത്ത്</h1>
+        </div>
+        <div class="content-card space-y-4">
+            <p class="font-bold text-green-900 text-lg">ഡ്രോണിനെ അഭിനന്ദിച്ച് നാം എഴുതുന്ന കത്ത് ✉️</p>
+
+            <div class="p-4 border-2 border-green-200 rounded-xl bg-green-50 space-y-3 font-bold text-gray-800" id="letterTextContent">
+                <p class="text-right">തീയതി: 25-10-2026</p>
+                <p>പ്രിയപ്പെട്ട ഡ്രോൺ,</p>
+                <p class="leading-relaxed pl-3 font-semibold">
+                    കുറോ വിളിച്ചപ്പോൾ നീ വേഗം പറന്നു വന്നു. വിശന്നുവലഞ്ഞ പാവം നായക്കുട്ടികൾക്ക് വിത്തും യന്ത്രങ്ങളും ഭക്ഷണവും കൊണ്ടുവന്ന നൽകിയ നിന്റെ മനസ്സ് വളരെ വലുതാണ്. നിന്റെയും കുറോയുടെയും കാർഷിക പ്രവർത്തനങ്ങൾ ഞങ്ങൾക്ക് വലിയ മാതൃകയാണ്. നിനക്ക് ഞങ്ങളുടെ സ്നേഹം നിറഞ്ഞ ആയിരം ഉമ്മകൾ!
+                </p>
+                <p class="text-right mt-4">എന്ന്,<br>സ്വന്തം കൂട്ടുകാർ</p>
+            </div>
+
+            <button class="read-btn w-full" onclick="speakText('letterTextContent', this)">🔊 കത്ത് വായിക്കുന്നത് കേൾക്കാം</button>
+        </div>
+    </div>
+
+</div>
+
+
+    <!-- Zoom controls -->
+    <div class="zoom-controls no-print">
+        <button class="zoom-btn" onclick="zoomIn()" title="Zoom In">+</button>
+        <button class="zoom-btn" onclick="zoomReset()" title="Reset" style="font-size:0.9rem;">1x</button>
+        <button class="zoom-btn" onclick="zoomOut()" title="Zoom Out">−</button>
+    </div>
+
+<script>
+    let foundSeedCount = 0;
+    let currentSelectedLetter = 'ൺ';
+    let currentColor = '#15803d';
+    let currentFreeDrawColor = '#1e293b';
+
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0, 0);
+    }
+
+    function toggleElement(id) {
+        const el = document.getElementById(id);
+        if (el.classList.contains('hidden')) {
+            el.classList.remove('hidden');
+        } else {
+            el.classList.add('hidden');
+        }
+    }
+
+
+    /* ========== ROBUST MALAYALAM TTS (model-style) ========== */
+    let ttsAudio = null, ttsToken = 0, ttsStopped = false, currentReadBtn = null, chosenVoice = null, audioUnlocked = false;
+
+    function pickMalayalamVoice() {
+        if (!('speechSynthesis' in window)) return null;
+        const voices = window.speechSynthesis.getVoices() || [];
+        const score = v => {
+            const n = (v.name || '').toLowerCase(), l = (v.lang || '').toLowerCase();
+            if (!l.startsWith('ml')) return 0;
+            if (/neural|natural|online|google|microsoft|sobhana|midhun|premium|samsung/.test(n)) return 5;
+            if (l === 'ml-in' || l === 'ml_in') return 4;
+            return 3;
+        };
+        let best = null, bestS = 0;
+        voices.forEach(v => { const s = score(v); if (s > bestS) { best = v; bestS = s; } });
+        return bestS >= 3 ? best : null;
+    }
+    function pickVoice() { chosenVoice = pickMalayalamVoice(); return chosenVoice; }
+    if ('speechSynthesis' in window) {
+        try { window.speechSynthesis.getVoices(); window.speechSynthesis.onvoiceschanged = pickVoice; } catch (e) {}
+    }
+
+    function unlockAudio() {
+        audioUnlocked = true;
+        try {
+            const a = document.getElementById('ttsPlayer');
+            if (a) {
+                a.playsInline = true; a.muted = true;
+                const p = a.play();
+                if (p && p.catch) p.catch(function () {});
+                setTimeout(function () { try { a.pause(); a.muted = false; a.removeAttribute('src'); } catch (e) {} }, 80);
+            }
+        } catch (e) {}
+        if ('speechSynthesis' in window) {
+            try { window.speechSynthesis.getVoices(); pickVoice(); if (window.speechSynthesis.paused) window.speechSynthesis.resume(); } catch (e) {}
+        }
+    }
+    document.addEventListener('touchstart', unlockAudio, { once: false, passive: true });
+    document.addEventListener('click', unlockAudio, true);
+
+    function getPlayer() {
+        var a = document.getElementById('ttsPlayer');
+        if (!a) {
+            a = document.createElement('audio');
+            a.id = 'ttsPlayer';
+            a.setAttribute('playsinline', 'true');
+            a.setAttribute('webkit-playsinline', 'true');
+            a.style.display = 'none';
+            document.body.appendChild(a);
+        }
+        return a;
+    }
+
+    function playSrc(src) {
+        return new Promise(function (resolve, reject) {
+            try {
+                var a = getPlayer();
+                var done = false;
+                var finish = function () { if (done) return; done = true; resolve(); };
+                a.onended = finish;
+                a.onerror = function () { if (!done) { done = true; reject(new Error('audio error')); } };
+                try { a.pause(); } catch (e) {}
+                a.src = src;
+                var p = a.play();
+                if (p && p.catch) p.catch(function () { if (!done) { done = true; reject(new Error('play failed')); } });
+                setTimeout(function () { if (!done) finish(); }, 45000);
+            } catch (e) { reject(e); }
+        });
+    }
+
+    function splitMlChunks(text, maxLen) {
+        const clean = String(text || '').replace(/\s+/g, ' ').trim();
+        if (!clean) return [];
+        if (clean.length <= maxLen) return [clean];
+        const parts = clean.split(/([।.!?…,;:\n\?])\s*/);
+        const out = []; let buf = '';
+        for (let i = 0; i < parts.length; i++) {
+            const p = parts[i];
+            if (!p) continue;
+            if ((buf + p).length <= maxLen) { buf += p; continue; }
+            if (buf) out.push(buf.trim());
+            if (p.length <= maxLen) { buf = p; continue; }
+            for (let k = 0; k < p.length; k += maxLen) out.push(p.slice(k, k + maxLen));
+            buf = '';
+        }
+        if (buf.trim()) out.push(buf.trim());
+        return out.filter(Boolean);
+    }
+
+    function googleUrls(text, tl) {
+        const q = encodeURIComponent(text);
+        return [
+            'https://translate.googleapis.com/translate_tts?ie=UTF-8&client=gtx&tl=' + tl + '&q=' + q,
+            'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=' + tl + '&q=' + q
+        ];
+    }
+
+    function speakViaSystem(text, onend) {
+        if (!('speechSynthesis' in window)) { if (onend) onend(); return; }
+        pickVoice();
+        var pieces = splitMlChunks(text, 180);
+        var i = 0;
+        function next() {
+            if (ttsStopped) { if (onend) onend(); return; }
+            if (i >= pieces.length) { if (onend) onend(); return; }
+            try { window.speechSynthesis.resume(); } catch (e) {}
+            var u = new SpeechSynthesisUtterance(pieces[i]);
+            u.lang = 'ml-IN';
+            u.rate = 0.68;
+            u.pitch = 1.0;
+            u.volume = 1.0;
+            var v = pickMalayalamVoice();
+            if (v) u.voice = v;
+            u.onend = function () { i++; next(); };
+            u.onerror = function () { i++; next(); };
+            try { window.speechSynthesis.speak(u); } catch (e) { i++; next(); }
+        }
+        next();
+    }
+
+    function playGoogleChunks(chunks, onend) {
+        var token = ttsToken;
+        var i = 0;
+        function next() {
+            if (ttsStopped || token !== ttsToken) { if (onend) onend(); return; }
+            if (i >= chunks.length) { if (onend) onend(); return; }
+            var urls = googleUrls(chunks[i], 'ml');
+            var u = 0;
+            function tryUrl() {
+                if (ttsStopped || token !== ttsToken) { if (onend) onend(); return; }
+                if (u >= urls.length) {
+                    speakViaSystem(chunks[i], function () { i++; next(); });
+                    return;
+                }
+                playSrc(urls[u]).then(function () { i++; next(); }).catch(function () { u++; tryUrl(); });
+            }
+            tryUrl();
+        }
+        next();
+    }
+
+    function stopSpeaking() {
+        ttsStopped = true;
+        ttsToken++;
+        try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {}
+        try {
+            var a = document.getElementById('ttsPlayer');
+            if (a) { a.pause(); a.removeAttribute('src'); }
+            ttsAudio = null;
+        } catch (e) {}
+        if (currentReadBtn) {
+            currentReadBtn.classList.remove('speaking');
+            currentReadBtn.innerHTML = currentReadBtn.dataset.origLabel || '🔊 കേൾക്കാം';
+            currentReadBtn = null;
+        }
+    }
+
+    window.PARA_CHUNKS = window.PARA_CHUNKS || {};
+    window.AUDIO_MAP = window.AUDIO_MAP || {};
+
+    function speakText(elementIdOrText, btn) {
+        try { unlockAudio(); } catch (e) {}
+        if (btn && btn.classList && btn.classList.contains('speaking')) {
+            stopSpeaking();
+            return;
+        }
+        stopSpeaking();
+        ttsStopped = false;
+        var token = ++ttsToken;
+
+        var el = document.getElementById(elementIdOrText);
+        var raw = el ? (el.innerText || el.textContent || '').trim() : String(elementIdOrText || '').trim();
+        raw = raw.replace(/\s+/g, ' ').trim();
+        if (!raw) return;
+
+        if (btn && btn.classList) {
+            currentReadBtn = btn;
+            btn.dataset.origLabel = btn.innerHTML;
+            btn.classList.add('speaking');
+            btn.innerHTML = '⏹ നിർത്തുക';
+        }
+
+        var map = window.AUDIO_MAP || {};
+        var paraChunks = window.PARA_CHUNKS || {};
+
+        function done() {
+            if (token !== ttsToken) return;
+            if (currentReadBtn) {
+                currentReadBtn.classList.remove('speaking');
+                currentReadBtn.innerHTML = currentReadBtn.dataset.origLabel || '🔊 കേൾക്കാം';
+                currentReadBtn = null;
+            }
+        }
+
+        function playSeq(list, cb) {
+            var i = 0;
+            function next() {
+                if (ttsStopped || token !== ttsToken) { if (cb) cb(); return; }
+                if (i >= list.length) { if (cb) cb(); return; }
+                var ch = list[i++];
+                if (map[ch]) {
+                    playSrc(map[ch]).then(next).catch(function () {
+                        playGoogleChunks([ch], next);
+                    });
+                } else {
+                    playGoogleChunks([ch], next);
+                }
+            }
+            next();
+        }
+
+        if (map[raw]) {
+            playSrc(map[raw]).then(done).catch(function () {
+                if (token !== ttsToken) return;
+                playGoogleChunks(splitMlChunks(raw, 120), done);
+            });
+            return;
+        }
+        if (paraChunks[raw] && paraChunks[raw].length) {
+            playSeq(paraChunks[raw], done);
+            return;
+        }
+        var chunks = splitMlChunks(raw, 120);
+        if (!chunks.length) { done(); return; }
+        playGoogleChunks(chunks, done);
+    }
+
+    function speakSelectedLetter() {
+        speakText(currentSelectedLetter);
+    }
+
+    /* ========== ZOOM ========== */
+    let appZoom = 1;
+    function applyZoom() {
+        const app = document.querySelector('.app-container') || document.getElementById('appBody');
+        if (!app) return;
+        app.style.zoom = appZoom;
+        app.style.transform = 'scale(' + appZoom + ')';
+        app.style.transformOrigin = 'top center';
+    }
+    function zoomIn() {
+        appZoom = Math.min(1.8, appZoom + 0.12);
+        applyZoom();
+    }
+    function zoomOut() {
+        appZoom = Math.max(0.7, appZoom - 0.12);
+        applyZoom();
+    }
+    function zoomReset() {
+        appZoom = 1;
+        applyZoom();
+    }
+
+
+    function checkCategorization(btn, isCorrect, categoryName) {
+        if (isCorrect) {
+            btn.classList.add('correct-item');
+            speakText('ശരിയുത്തരം ' + categoryName);
+        } else {
+            btn.classList.add('wrong-item');
+            speakText('തെറ്റായ ഉത്തരം');
+        }
+    }
+
+    function checkSeedItem(el, isCorrect, name) {
+        if (el.classList.contains('correct-item') || el.classList.contains('wrong-item')) return;
+        if (isCorrect) {
+            el.classList.add('correct-item');
+            foundSeedCount++;
+            document.getElementById('foundSeedCount').innerText = foundSeedCount;
+            speakText(name + ' പാട്ടിലുണ്ട്');
+        } else {
+            el.classList.add('wrong-item');
+            speakText(name + ' പാട്ടിൽ ഇല്ലായിരുന്നു');
+        }
+    }
+
+    function checkLetterGame(btn, isCorrect) {
+        if (isCorrect) {
+            btn.classList.add('correct-item');
+            speakText('ശരിയുത്തരം');
+        } else {
+            btn.classList.add('wrong-item');
+            speakText('തെറ്റായ ഉത്തരം');
+        }
+    }
+
+    function setTraceColor(c) { currentColor = c; }
+    function setFreeDrawColor(c) { currentFreeDrawColor = c; }
+
+    function selectLetterToTrace(letter, btn) {
+        currentSelectedLetter = letter;
+        document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active-letter'));
+        if (btn) btn.classList.add('active-letter');
+        drawLetterOutline();
+        speakSelectedLetter();
+    }
+
+    function speakSelectedLetter() {
+        speakText(currentSelectedLetter);
+    }
+
+    function drawLetterOutline() {
+        const canvas = document.getElementById('traceCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.font = 'bold 120px "Manjari", sans-serif';
+        ctx.fillStyle = '#bbf7d0';
+        ctx.strokeStyle = '#16a34a';
+        ctx.lineWidth = 3;
+        ctx.setLineDash([6, 6]);
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        ctx.fillText(currentSelectedLetter, canvas.width / 2, canvas.height / 2);
+        ctx.strokeText(currentSelectedLetter, canvas.width / 2, canvas.height / 2);
+        ctx.setLineDash([]);
+    }
+
+    function resetTracingCanvas() {
+        drawLetterOutline();
+    }
+
+    function clearFreeDrawCanvas() {
+        const canvas = document.getElementById('freeDrawCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function initTracingCanvas() {
+        const canvas = document.getElementById('traceCanvas');
+        if (!canvas) return;
+        canvas.width = canvas.offsetWidth || 320;
+        canvas.height = canvas.offsetHeight || 320;
+
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+
+        function getPos(e) {
+            let rect = canvas.getBoundingClientRect();
+            let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            let clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return { x: clientX - rect.left, y: clientY - rect.top };
+        }
+
+        function startDraw(e) {
+            isDrawing = true;
+            ctx.beginPath();
+            let pos = getPos(e);
+            ctx.moveTo(pos.x, pos.y);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            let pos = getPos(e);
+            ctx.strokeStyle = currentColor;
+            ctx.lineWidth = 10;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.setLineDash([]);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+        }
+
+        function stopDraw() { isDrawing = false; }
+
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDraw);
+        canvas.addEventListener('touchstart', startDraw);
+        canvas.addEventListener('touchmove', draw);
+        canvas.addEventListener('touchend', stopDraw);
+
+        drawLetterOutline();
+    }
+
+    function initFreeDrawingCanvas() {
+        const canvas = document.getElementById('freeDrawCanvas');
+        if (!canvas) return;
+        canvas.width = canvas.offsetWidth || 320;
+        canvas.height = canvas.offsetHeight || 320;
+
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+
+        function getPos(e) {
+            let rect = canvas.getBoundingClientRect();
+            let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            let clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return { x: clientX - rect.left, y: clientY - rect.top };
+        }
+
+        function startDraw(e) {
+            isDrawing = true;
+            ctx.beginPath();
+            let pos = getPos(e);
+            ctx.moveTo(pos.x, pos.y);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            let pos = getPos(e);
+            ctx.strokeStyle = currentFreeDrawColor;
+            ctx.lineWidth = 6;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+        }
+
+        function stopDraw() { isDrawing = false; }
+
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDraw);
+        canvas.addEventListener('touchstart', startDraw);
+        canvas.addEventListener('touchmove', draw);
+        canvas.addEventListener('touchend', stopDraw);
+    }
+</script>
+</body>
+</html>
